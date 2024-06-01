@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
