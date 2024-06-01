@@ -22,6 +22,10 @@ public class PasswordResetToken {
 
     private @NonNull String token;
     private @NonNull Date expiryDate;
+
+    public PasswordResetToken(String resetToken, User user, Date expiryDate) {
+    }
+
     private boolean isExpired(){
         return expiryDate.before(new Date());
     }
