@@ -4,6 +4,9 @@ import com.daniel.food_order.domain.USER_ROLE;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 public class User {
@@ -18,6 +21,9 @@ public class User {
     private USER_ROLE role;
 
     private String status;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses = new ArrayList<>();
 
 
 }

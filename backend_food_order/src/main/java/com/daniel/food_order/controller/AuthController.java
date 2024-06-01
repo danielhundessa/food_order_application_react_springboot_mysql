@@ -5,6 +5,7 @@ import com.daniel.food_order.config.JwtProvider;
 import com.daniel.food_order.domain.USER_ROLE;
 import com.daniel.food_order.model.Cart;
 import com.daniel.food_order.model.User;
+import com.daniel.food_order.repository.CartRepository;
 import com.daniel.food_order.repository.UserRepository;
 import com.daniel.food_order.request.LoginRequest;
 import com.daniel.food_order.response.AuthResponse;
@@ -41,6 +42,7 @@ public class AuthController {
     private CustomUserServiceImplementation customUserDetails;
     private PasswordResetTokenService passwordResetTokenService;
     private UserService userService;
+    private CartRepository cartRepository;
 
     public AuthController(
             UserRepository userRepository ,
@@ -48,7 +50,8 @@ public class AuthController {
             JwtProvider jwtProvider,
             CustomUserServiceImplementation customUserDetails,
             PasswordResetTokenService passwordResetTokenService,
-            UserService userService
+            UserService userService,
+            CartRepository cartRepository
 
     ) {
         this.userRepository = userRepository;
@@ -57,6 +60,7 @@ public class AuthController {
         this.customUserDetails = customUserDetails;
         this.passwordResetTokenService = passwordResetTokenService;
         this.userService = userService;
+        this.cartRepository = cartRepository;
     }
 
     @PostMapping("/signup")
@@ -81,6 +85,8 @@ public class AuthController {
         User savedUser = userRepository.save(createdUser);
 
         Cart cart = new Cart();
+        cart.setCustomer(savedUser);
+        Cart savedCart = cartRepository.save(cart);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.toString()));
