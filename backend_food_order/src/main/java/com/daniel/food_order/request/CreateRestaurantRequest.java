@@ -1,5 +1,6 @@
 package com.daniel.food_order.request;
 
+import com.daniel.food_order.model.Address;
 import com.daniel.food_order.model.ContactInformation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class CreateRestaurantRequest {
     private String name;
     private String description;
     private String cuisineType;
-    private String address;
+    private Address address;
     private ContactInformation contactInformation;
     private String openingHours;
     private LocalDateTime registrationDate;

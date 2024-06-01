@@ -5,6 +5,8 @@ import com.daniel.food_order.dto.RestaurantDto;
 import com.daniel.food_order.model.Address;
 import com.daniel.food_order.model.Restaurant;
 import com.daniel.food_order.model.User;
+import com.daniel.food_order.repository.AddressRepository;
+import com.daniel.food_order.repository.RestaurantRepository;
 import com.daniel.food_order.repository.UserRepository;
 import com.daniel.food_order.request.CreateRestaurantRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,39 @@ public class RestaurantServiceImplementation implements RestaurantService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user) {
         Address address = new Address();
-        address.setCity(req.getAddress());
+        address.setCity(req.getAddress().getCity());
+        address.setCountry(req.getAddress().getCountry());
+        address.setFullName(req.getAddress().getFullName());
+        address.setPostalCode(req.getAddress().getPostalCode());
+        address.setState(req.getAddress().getState());
+        address.setStreetAddress(req.getAddress().getStreetAddress());
 
-        return null;
+        Address savedAddress = addressRepository.save(address);
+
+        Restaurant restaurant = new Restaurant();
+
+        restaurant.setAddress(savedAddress);
+        restaurant.setContactInformation(req.getContactInformation());
+        restaurant.setCuisineType(req.getCuisineType());
+        restaurant.setDescription(req.getDescription());
+        restaurant.setImages(req.getImages());
+        restaurant.setName(req.getName());
+        restaurant.setOpeningHours(req.getOpeningHours());
+        restaurant.setRegistrationDate(req.getRegistrationDate());
+        restaurant.setOwner(user);
+
+        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+
+        return savedRestaurant;
     }
 
     @Override
